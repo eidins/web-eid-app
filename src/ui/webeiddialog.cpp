@@ -445,7 +445,9 @@ void WebEidDialog::setupPinPadProgressBarAndEmitWait(const CardCertificateAndPin
 void WebEidDialog::setupPinInputValidator(const PinInfo::PinMinMaxLength& pinMinMaxLength)
 {
     const auto numericMinMaxRegexp = QRegularExpression(
-        QStringLiteral("[0-9]{%1,%2}").arg(pinMinMaxLength.first).arg(pinMinMaxLength.second));
+        // TODO: add new method `bool ElectronicID::allowsUsingLettersInPin()` and use it here
+        // to choose either [0-9] or [0-9a-zA-Z].
+        QStringLiteral("[0-9a-zA-Z]{%1,%2}").arg(pinMinMaxLength.first).arg(pinMinMaxLength.second));
     ui->pinInputValidator->setRegularExpression(numericMinMaxRegexp);
     ui->pinInput->setMaxLength(int(pinMinMaxLength.second));
     ui->pinInput->show();
